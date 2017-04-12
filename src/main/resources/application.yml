@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: running-information-analysis-service
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_cs504
+    username: admin
+    password: admin888
