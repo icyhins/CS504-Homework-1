@@ -11,7 +11,7 @@ import silver.bittiger.cs504.rias.domain.RunningInformation;
  */
 public interface RunningInformationRepository extends JpaRepository<RunningInformation, Long> {
 
-    Page<RunningInformation> findByHealthWarningLevel(
-            @Param("healthWarningLevel") RunningInformation.HealthWarningLevel healthWarningLevel,
-            Pageable pageable);
-}
+    Page<RunningInformation> findByHeartRate(int heartRate, Pageable pageable);
+
+    Page<RunningInformation> findByHeartRateGreaterThan(int heartRate, Pageable pageable);
+ }

@@ -1,34 +1,58 @@
 package silver.bittiger.cs504.rias.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import org.h2.engine.User;
+import java.sql.Timestamp;
+import java.util.Random;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Random;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Created by vagrant on 4/12/17.
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Embeddable
+@RequiredArgsConstructor
 public class RunningInformation {
 
     public enum HealthWarningLevel{
         HIGH, NORMAL,LOW;
 
-        public boolean isHealth(){return this!=HIGH;}
+        public HealthWarningLevel getHealthWarningLevel(int heartRate){
+
+        	// heartRate > 120 -- HIGH
+        	if(heartRate > 120){
+        		return HealthWarningLevel.HIGH;
+        	}
+        	// 120 >= heartRate > 75 -- NORMAL
+        	else if(120 >= heartRate && heartRate > 75){
+        		return HealthWarningLevel.NORMAL;
+        	}
+        	// 75 >= heartRate >= 60 -- LOW
+        	else if(75 >= heartRate && heartRate >= 60){
+        		return HealthWarningLevel.LOW;
+        	}else{
+        		return null;// other, return null
+        	}
+
+        }
     }
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private final String runningId;
+    private String runningId;
 
     private double latitude;
 
@@ -38,25 +62,45 @@ public class RunningInformation {
 
     private long totalRunningTime;
 
+    @JsonIgnore
+    private Timestamp createTime;
+
+    @JsonIgnore
     private int heartRate;
 
     @Embedded
-    private UserInfo userInfo;
+    private final UserInfo userInfo;
 
-    public RunningInformation(){
-        this.runningId = "";
-        heartRate = 0;
+    private String healthWarningLevel;
+
+    public RunningInformation(UserInfo userInfo){
+        this.userInfo = userInfo;
     }
 
-    @JsonCreator
-    public RunningInformation(@JsonProperty ("runningId") String runningId){
+    public RunningInformation(
+             @JsonProperty("runningId") String runningId,
+             @JsonProperty("latitude")String latitude,
+             @JsonProperty("longitude")String longitude,
+             @JsonProperty("runningDistance")String runningDistance,
+             @JsonProperty("totalRunningTime")String totalRunningTime,
+             //@JsonProperty("heartRate")String heartRate,
+             @JsonProperty("userInfo") UserInfo userInfo
+    ){
         this.runningId = runningId;
-        heartRate = 0;
+        this.latitude = Double.parseDouble(latitude);
+        this.longitude = Double.parseDouble(longitude);
+        this.runningDistance = Double.parseDouble(runningDistance);
+        this.totalRunningTime = Long.parseLong(totalRunningTime);
+        this.heartRate = getHeartRate(60,120);
+        this.createTime = new Timestamp(System.currentTimeMillis());
+        this.userInfo = userInfo;
     }
 
-    public int getHeartRate(){
-        return new Random().nextInt(120-60)+60;
+    private int getHeartRate(int min,int max){
+        return new Random().nextInt(max-min+1)+min;
     }
+
+
 
 
 

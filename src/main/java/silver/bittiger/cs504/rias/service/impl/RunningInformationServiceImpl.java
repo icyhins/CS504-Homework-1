@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import silver.bittiger.cs504.rias.dao.RunningInformationRepository;
 import silver.bittiger.cs504.rias.domain.RunningInformation;
-import silver.bittiger.cs504.rias.service.InformationService;
+import silver.bittiger.cs504.rias.service.RunningInformationService;
 
 import java.util.List;
 
@@ -14,12 +14,12 @@ import java.util.List;
  * Created by vagrant on 4/12/17.
  */
 @Service
-public class InformationServiceImpl implements InformationService {
+public class RunningInformationServiceImpl implements RunningInformationService {
 
     private RunningInformationRepository runningInformationRepository;
 
     @Autowired
-    public InformationServiceImpl(RunningInformationRepository runningInformationRepository){
+    public RunningInformationServiceImpl(RunningInformationRepository runningInformationRepository){
         this.runningInformationRepository = runningInformationRepository;
     }
 
@@ -34,12 +34,18 @@ public class InformationServiceImpl implements InformationService {
     }
 
     @Override
-    public void deleteRunningInformationByRunningId(String runningId) {
-        runningInformationRepository.delete(new RunningInformation(runningId));
+    public Page<RunningInformation> findByHeartRate(int heartRate, Pageable pageable) {
+        return runningInformationRepository.findByHeartRate(heartRate,pageable);
     }
 
     @Override
-    public Page<RunningInformation> findByHealthWarningLevel(String healthWarningLevel, Pageable pageable) {
-        return runningInformationRepository.findByHealthWarningLevel(RunningInformation.HealthWarningLevel.valueOf(healthWarningLevel), pageable);
+    public Page<RunningInformation> findByHeartRateGreaterThan(int heartRate, Pageable pageable) {
+        return runningInformationRepository.findByHeartRateGreaterThan(heartRate, pageable);
     }
+
+    @Override
+    public Page<RunningInformation> findAllRunningInformationOrderByHealthLevel(Pageable pageable) {
+        return null;
+    }
+
 }
