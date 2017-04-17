@@ -23,7 +23,7 @@ cd CS504-Homework-1
 mvn clean install
 ```
 
-## Run Docker & Databas
+## Run Docker & Database
 ### Run MySQL Docker
 ```
 docker-compose up -d
@@ -49,7 +49,7 @@ java -jar ./target/running-information-analysis-service-1.0.0.BUILD-SNAPSHOT.jar
 
 ## Request Example
 
-Upload JSON Data
+Upload JSON Data (with POST method)
 ```
 http://localhost:9000/upload
 ```
