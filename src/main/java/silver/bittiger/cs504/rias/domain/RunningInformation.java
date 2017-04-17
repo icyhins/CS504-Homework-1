@@ -14,21 +14,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
-/**
- * Created by vagrant on 4/12/17.
- */
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Embeddable
-@RequiredArgsConstructor
 public class RunningInformation {
 
     public enum HealthWarningLevel{
-        HIGH, NORMAL,LOW;
+        HIGH, NORMAL,LOW,UNKNOWN;
 
-        public HealthWarningLevel getHealthWarningLevel(int heartRate){
+        public static HealthWarningLevel getHealthWarningLevel(int heartRate){
 
         	// heartRate > 120 -- HIGH
         	if(heartRate > 120){
@@ -42,7 +37,7 @@ public class RunningInformation {
         	else if(75 >= heartRate && heartRate >= 60){
         		return HealthWarningLevel.LOW;
         	}else{
-        		return null;// other, return null
+        		return HealthWarningLevel.UNKNOWN;// other, return null
         	}
 
         }
@@ -77,6 +72,7 @@ public class RunningInformation {
         this.userInfo = userInfo;
     }
 
+    @JsonCreator
     public RunningInformation(
              @JsonProperty("runningId") String runningId,
              @JsonProperty("latitude")String latitude,
@@ -94,22 +90,11 @@ public class RunningInformation {
         this.heartRate = getHeartRate(60,120);
         this.createTime = new Timestamp(System.currentTimeMillis());
         this.userInfo = userInfo;
+        this.healthWarningLevel = HealthWarningLevel.getHealthWarningLevel(this.heartRate).toString();
     }
 
     private int getHeartRate(int min,int max){
         return new Random().nextInt(max-min+1)+min;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

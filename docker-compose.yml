@@ -1,22 +1,8 @@
-<<<<<<< HEAD
-runningInformationAnalysisService:
-  image: mysql
-  ports:
-    - "3306:3306"
-  enviroment:
-    - MYSQL_ROOT_PASSWORD=root
-=======
 RunningInformationAnalysisService:
   image: mysql
   ports:
     - "3306:3306"
   environment:
     -   MYSQL_ROOT_PASSWORD=root
- 
-rabbitmq:
-  image: "rabbitmq:3-management"   
-  ports:
-    - "15672:15672"
-    - "5672:5672"
-    
->>>>>>> origin/master
+
+

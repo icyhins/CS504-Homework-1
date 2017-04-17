@@ -11,11 +11,13 @@ import java.util.List;
  * Created by vagrant on 4/12/17.
  */
 
-public interface RunningInformationService {
+public interface RunningInformationAnalysisService {
 
     List<RunningInformation> saveRunningInformations(List<RunningInformation> runningInformationList);
 
     void deleteAll();
+
+    void deleteByRunningId(String runningId);
 
     Page<RunningInformation> findByHeartRate(int heartRate, Pageable pageable);
 

@@ -7,20 +7,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import silver.bittiger.cs504.rias.dao.RunningInformationRepository;
+import silver.bittiger.cs504.rias.dao.RunningInformationAnalysisRepository;
 import silver.bittiger.cs504.rias.domain.RunningInformation;
-import silver.bittiger.cs504.rias.service.RunningInformationService;
+import silver.bittiger.cs504.rias.service.RunningInformationAnalysisService;
 
 /**
  * Created by vagrant on 4/12/17.
  */
 @Service
-public class RunningInformationServiceImpl implements RunningInformationService {
+public class RunningInformationAnalysisServiceImpl implements RunningInformationAnalysisService {
 
-    private RunningInformationRepository runningInformationRepository;
+    private RunningInformationAnalysisRepository runningInformationRepository;
 
     @Autowired
-    public RunningInformationServiceImpl(RunningInformationRepository runningInformationRepository){
+    public RunningInformationAnalysisServiceImpl(RunningInformationAnalysisRepository runningInformationRepository){
         this.runningInformationRepository = runningInformationRepository;
     }
 
@@ -35,6 +35,12 @@ public class RunningInformationServiceImpl implements RunningInformationService 
     }
 
     @Override
+    public void deleteByRunningId(String runningId) {
+        RunningInformation runningInformation = runningInformationRepository.findFirstByRunningId(runningId);
+        runningInformationRepository.delete(runningInformation);
+    }
+
+    @Override
     public Page<RunningInformation> findByHeartRate(int heartRate, Pageable pageable) {
         return runningInformationRepository.findByHeartRate(heartRate,pageable);
     }
@@ -46,7 +52,7 @@ public class RunningInformationServiceImpl implements RunningInformationService 
 
     @Override
     public Page<RunningInformation> findAllRunningInformationOrderByHealthLevel(Pageable pageable) {
-        return null;
+        return runningInformationRepository.findOrderByHeartRateDesc(pageable);
     }
 
 }

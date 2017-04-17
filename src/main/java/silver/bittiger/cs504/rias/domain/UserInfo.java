@@ -15,9 +15,8 @@ import javax.persistence.Embeddable;
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Embeddable
-@RequiredArgsConstructor
 public class UserInfo {
-    private final String username;
+    private String username;
 
     private String address;
 
