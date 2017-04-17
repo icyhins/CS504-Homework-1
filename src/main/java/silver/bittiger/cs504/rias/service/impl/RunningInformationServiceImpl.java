@@ -1,14 +1,15 @@
 package silver.bittiger.cs504.rias.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import silver.bittiger.cs504.rias.dao.RunningInformationRepository;
 import silver.bittiger.cs504.rias.domain.RunningInformation;
 import silver.bittiger.cs504.rias.service.RunningInformationService;
-
-import java.util.List;
 
 /**
  * Created by vagrant on 4/12/17.
