@@ -27,7 +27,24 @@ public class RunningInformation {
     public enum HealthWarningLevel{
         HIGH, NORMAL,LOW;
 
-        public boolean isHealth(){return this!=HIGH;}
+        public HealthWarningLevel getHealthWarningLevel(int heartRate){
+
+        	// heartRate > 120 -- HIGH
+        	if(heartRate > 120){
+        		return HealthWarningLevel.HIGH;
+        	}
+        	// 120 >= heartRate > 75 -- NORMAL
+        	else if(120 >= heartRate && heartRate > 75){
+        		return HealthWarningLevel.NORMAL;
+        	}
+        	// 75 >= heartRate >= 60 -- LOW
+        	else if(75 >= heartRate && heartRate >= 60){
+        		return HealthWarningLevel.LOW;
+        	}else{
+        		return null;// other, return null
+        	}
+        	
+        }
     }
 
     @Id
